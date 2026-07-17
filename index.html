@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Shroff's Charity Eye Hospital - Vision Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #01579b 0%, #0288d1 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo { display: flex; align-items: center; gap: 15px; }
+        .logo i { font-size: 2.5rem; color: #81d4fa; }
+        .logo-text h1 { font-size: 1.5rem; font-weight: 700; margin: 0; }
+        .logo-text p { font-size: 0.85rem; opacity: 0.9; margin: 0; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #81d4fa; }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(1, 87, 155, 0.95) 0%, rgba(2, 136, 209, 0.95) 100%);
+            color: white;
+            padding: 4rem 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero h2 { font-size: 2.5rem; margin-bottom: 1rem; animation: fadeInDown 0.8s; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95; animation: fadeInUp 0.8s; }
+        .eye-animation {
+            width: 120px; height: 120px; margin: 2rem auto; position: relative; animation: pulse 2s infinite;
+        }
+        .eye-svg { width: 100%; height: 100%; }
+
+        .main-container { max-width: 1200px; margin: -3rem auto 3rem; padding: 0 20px; position: relative; z-index: 2; }
+
+        .calculator-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 3rem;
+            border-top: 5px solid #0288d1;
+        }
+        .section-title {
+            text-align: center;
+            color: #01579b;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .section-subtitle { text-align: center; color: #78909c; margin-bottom: 2rem; }
+        
+        .scale-toggle {
+            display: flex;
+            background: #eceff1;
+            border-radius: 10px;
+            padding: 5px;
+            gap: 5px;
+            margin-bottom: 1.5rem;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #546e7a;
+            transition: all 0.3s;
+        }
+        .toggle-btn.active {
+            background: white;
+            color: #0288d1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .form-group { text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: #37474f; font-weight: 600; font-size: 0.95rem; }
+        select {
+            width: 100%; padding: 14px; border: 2px solid #b0bec5; border-radius: 10px;
+            font-size: 1rem; outline: none; transition: all 0.3s; background-color: #fff;
+        }
+        select:focus { border-color: #0288d1; box-shadow: 0 0 0 4px rgba(2, 136, 209, 0.1); }
+        
+        .btn-calculate {
+            background: linear-gradient(135deg, #0288d1 0%, #0277bd 100%);
+            color: white; border: none; padding: 16px 32px; font-size: 1.1rem;
+            font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.3s;
+            width: 100%; box-shadow: 0 4px 15px rgba(2, 136, 209, 0.3);
+        }
+        .btn-calculate:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2, 136, 209, 0.4); }
+
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .result-card {
+            padding: 1.5rem;            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 8px solid;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .result-title { font-size: 1.4rem; font-weight: 700; }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+        }
+        .status-not-refer { background: #4caf50; }
+        .status-refer { background: #f44336; }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .detail-item {
+            background: rgba(255,255,255,0.6);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .detail-label { font-size: 0.8rem; color: #666; margin-bottom: 4px; }
+        .detail-value { font-size: 1.1rem; font-weight: 700; }
+
+        .category-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .category-fill { height: 100%; border-radius: 4px; }
+
+        .cat-normal { border-color: #4caf50; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }        .cat-normal .status-badge { background: #4caf50; }
+        .cat-normal .category-fill { background: #4caf50; }
+
+        .cat-mild { border-color: #ff9800; background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); }
+        .cat-mild .status-badge { background: #ff9800; }
+        .cat-mild .category-fill { background: #ff9800; }
+
+        .cat-moderate { border-color: #f57c00; background: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%); }
+        .cat-moderate .status-badge { background: #f57c00; }
+        .cat-moderate .category-fill { background: #f57c00; }
+
+        .cat-severe { border-color: #f44336; background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); }
+        .cat-severe .status-badge { background: #f44336; }
+        .cat-severe .category-fill { background: #f44336; }
+
+        .cat-blind { border-color: #212121; background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%); color: #333; }
+        .cat-blind .status-badge { background: #212121; }
+        .cat-blind .category-fill { background: #212121; }
+
+        .better-eye-card {
+            border: 3px solid #0288d1;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .better-eye-card::before {
+            content: '👁️';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+        .better-eye-card .result-title { color: #01579b; font-size: 1.6rem; }
+        .better-eye-card .status-badge { background: #0288d1; font-size: 1rem; padding: 8px 16px; }
+        .comparison-box {
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        .comparison-text { font-size: 1rem; color: #01579b; font-weight: 600; margin-bottom: 8px; }
+        .difference-indicator { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .diff-bar { flex: 1; height: 20px; background: #eee; border-radius: 10px; overflow: hidden; }
+        .diff-fill { height: 100%; background: linear-gradient(90deg, #4caf50 0%, #ff9800 50%, #f44336 100%); border-radius: 10px; transition: width 1s ease; }
+        .diff-label { font-size: 0.9rem; color: #546e7a; font-weight: 600; }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .info-card {
+            background: white;            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .info-card:hover { transform: translateY(-5px); }
+        .info-card h3 { color: #01579b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; }
+        .info-card h3 i { color: #0288d1; }
+
+        .vision-level {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            gap: 15px;
+        }
+        .level-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .level-info h4 { margin: 0 0 4px 0; font-size: 1rem; }
+        .level-info p { margin: 0; font-size: 0.85rem; opacity: 0.9; }
+        .level-normal { background: #e8f5e9; } .level-normal .level-icon { background: #4caf50; color: white; }
+        .level-mild { background: #fff8e1; } .level-mild .level-icon { background: #ffca28; color: white; }
+        .level-moderate { background: #fff3e0; } .level-moderate .level-icon { background: #ff9800; color: white; }
+        .level-severe { background: #ffebee; } .level-severe .level-icon { background: #f44336; color: white; }
+        .level-blind { background: #37474f; color: white; } .level-blind .level-icon { background: #263238; color: white; }
+
+        .anatomy-container { display: flex; justify-content: center; margin: 1.5rem 0; }
+        .anatomy-svg { max-width: 320px; width: 100%; }
+        .anatomy-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+        .anatomy-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; padding: 8px; background: #f5f5f5; border-radius: 6px; }
+        .anatomy-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+        .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 1rem; }
+        .tip-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .tip-card:hover { transform: scale(1.05); }        .tip-card i { font-size: 2rem; color: #0288d1; margin-bottom: 10px; }
+        .tip-card h4 { font-size: 0.9rem; color: #01579b; margin: 0; }
+        .rule-box {
+            margin-top: 1.5rem;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border-left: 4px solid #0288d1;
+        }
+        .rule-box h4 { color: #01579b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .rule-box p { font-size: 0.9rem; color: #546e7a; margin: 0; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 1.5rem; }
+        .stat-card {
+            background: linear-gradient(135deg, #0288d1 0%, #0277bd 100%);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-number { font-size: 2.5rem; font-weight: 700; margin-bottom: 8px; }
+        .stat-label { font-size: 0.95rem; opacity: 0.95; line-height: 1.4; }
+
+        .faq-container { margin-top: 1.5rem; }
+        .faq-item { background: #f5f5f5; border-radius: 8px; margin: 10px 0; overflow: hidden; }
+        .faq-question {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #01579b;
+            transition: background 0.3s;
+        }
+        .faq-question:hover { background: #e3f2fd; }
+        .faq-answer { padding: 0 15px 15px; color: #546e7a; font-size: 0.95rem; line-height: 1.6; display: none; }
+
+        .footer { background: linear-gradient(135deg, #01579b 0%, #002f6c 100%); color: white; padding: 3rem 20px 2rem; margin-top: 4rem; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .footer-section h3 { margin-bottom: 1rem; color: #81d4fa; font-size: 1.2rem; }
+        .footer-section p, .footer-section a { color: #b3e5fc; text-decoration: none; line-height: 1.8; font-size: 0.95rem; }
+        .footer-section a:hover { color: white; }
+        .footer-bottom { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2); color: #81d4fa; }
+        .social-links { margin-top: 1rem; display: flex; gap: 15px; }
+        .social-links a { color: #81d4fa; font-size: 1.3rem; transition: color 0.3s; }
+        .social-links a:hover { color: white; }
+        .age-referral-box {
+            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+            border: 2px solid #0288d1;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .age-referral-box h4 {
+            color: #01579b;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        .age-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .age-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .age-item h5 {
+            color: #0277bd;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        .age-item p {
+            color: #546e7a;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h2 { font-size: 1.8rem; }
+            .logo-text h1 { font-size: 1.1rem; }
+            .tips-grid { grid-template-columns: repeat(2, 1fr); }
+            .age-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-eye"></i>
+                <div class="logo-text">
+                    <h1>Dr. Shroff's Charity Eye Hospital</h1>
+                    <p>Vision Calculator & Eye Health Guide</p>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#vision-levels">Vision Levels</a></li>
+                <li><a href="#anatomy">Eye Anatomy</a></li>
+                <li><a href="#tips">Eye Care</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Understand Your Vision Health</h2>
+            <p>Calculate your visual acuity (Snellen or LogMAR) and learn about eye health with our comprehensive tool</p>
+            <div class="eye-animation">
+                <svg class="eye-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="50" cy="50" rx="45" ry="30" fill="none" stroke="white" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="20" fill="white" opacity="0.3"/>
+                    <circle cx="50" cy="50" r="12" fill="white" opacity="0.6"/>
+                    <circle cx="50" cy="50" r="6" fill="white"/>
+                    <path d="M 5 50 Q 50 80 95 50" fill="none" stroke="white" stroke-width="2" opacity="0.5"/>
+                    <path d="M 5 50 Q 50 20 95 50" fill="none" stroke="white" stroke-width="2" opacity="0.5"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <section class="calculator-section" id="calculator">
+            <h2 class="section-title">
+                <i class="fas fa-calculator"></i> Vision Calculator
+            </h2>
+            <p class="section-subtitle">WHO Classification - Select visual acuity for Right Eye and Left Eye</p>
+            
+            <div class="scale-toggle">
+                <button type="button" class="toggle-btn active" id="snellenBtn" onclick="switchScale('snellen')">Snellen (6/6, 6/12...)</button>
+                <button type="button" class="toggle-btn" id="logmarBtn" onclick="switchScale('logmar')">LogMAR (0.0, 0.1...)</button>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="rightEye"><i class="fas fa-eye"></i> Right Eye (OD):</label>                    <select id="rightEye">
+                        <option value="">Select Vision</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="leftEye"><i class="fas fa-eye"></i> Left Eye (OS):</label>
+                    <select id="leftEye">
+                        <option value="">Select Vision</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateVision()">
+                <i class="fas fa-calculator"></i> Calculate Vision
+            </button>
+            
+            <div id="resultContainer" class="result-container"></div>
+
+            <div class="age-referral-box">
+                <h4><i class="fas fa-info-circle"></i> Age-Based Referral Guidelines</h4>
+   <div class="age-grid">
+                    <div class="age-item">
+                        <h5>0-18 Years</h5>
+                        <p>Refer if vision ≤ 0.3 LogMAR (worse than 6/12)</p>
+                    </div>
+                    <div class="age-item">
+                        <h5>18+ Years</h5>
+                        <p>Refer if vision ≤ 0.4 LogMAR (worse than 6/12)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <i class="fas fa-exclamation-triangle"></i> 
+                <strong>Disclaimer:</strong> Based on WHO Classification. This calculator is for educational purposes only. It does not replace a comprehensive eye examination by a qualified ophthalmologist.
+            </div>
+        </section>
+
+        <div class="info-grid">
+            <div class="info-card" id="vision-levels">
+                <h3><i class="fas fa-chart-bar"></i> Vision Levels Guide (WHO Classification)</h3>
+                <div class="vision-level level-normal">
+                    <div class="level-icon"><i class="fas fa-check"></i></div>
+                    <div class="level-info"><h4>Normal</h4><p>6/12 to 6/6 (or better)</p><p style="font-size:0.75rem; color:#4caf50; font-weight:600;">✓ Not Refer</p></div>
+                </div>
+                <div class="vision-level level-mild">
+                    <div class="level-icon"><i class="fas fa-exclamation"></i></div>
+                    <div class="level-info"><h4>Mild</h4><p>Worse than 6/12 up to 6/18</p><p style="font-size:0.75rem; color:#f44336; font-weight:600;">⚠ Refer to Vision Center</p></div>
+                </div>
+                <div class="vision-level level-moderate">
+                    <div class="level-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="level-info"><h4>Moderate</h4><p>Worse than 6/18 up to 6/60</p><p style="font-size:0.75rem; color:#f44336; font-weight:600;">⚠ Refer to Vision Center</p></div>
+                </div>
+                <div class="vision-level level-severe">
+                    <div class="level-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="level-info"><h4>Severe</h4><p>Worse than 6/60 up to 3/60</p><p style="font-size:0.75rem; color:#f44336; font-weight:600;">⚠ Refer to Vision Center</p></div>
+                </div>
+                <div class="vision-level level-blind">
+                    <div class="level-icon"><i class="fas fa-eye-slash"></i></div>
+                    <div class="level-info"><h4>Blindness</h4><p>Worse than 3/60 (FCCF, HM, PL)</p><p style="font-size:0.75rem; color:#f44336; font-weight:600;">⚠ Refer to Vision Center</p></div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-eye"></i> Snellen Chart Reference</h3>
+                <div style="background: white; border: 3px solid #01579b; border-radius: 10px; padding: 20px; margin: 1rem 0;">
+                    <div style="display: flex; justify-content: center; margin: 15px 0; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 2rem; font-family: 'Arial Black', sans-serif; font-weight: 900;">E F P T O Z</div>
+                    <div style="text-align: center; font-size: 0.8rem; color: #666; margin-bottom: 10px; font-weight: 600;">6/6 - Normal</div>
+                    <div style="display: flex; justify-content: center; margin: 15px 0; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 1.5rem; font-family: 'Arial Black', sans-serif; font-weight: 900;">L P E D F D B</div>
+                    <div style="text-align: center; font-size: 0.8rem; color: #666; margin-bottom: 10px; font-weight: 600;">6/12 - Normal</div>
+                    <div style="display: flex; justify-content: center; margin: 15px 0; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 1.2rem; font-family: 'Arial Black', sans-serif; font-weight: 900;">F E L O P Z C D</div>
+                    <div style="text-align: center; font-size: 0.8rem; color: #666; margin-bottom: 10px; font-weight: 600;">6/18 - Mild</div>
+                    <div style="display: flex; justify-content: center; margin: 15px 0; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 1rem; font-family: 'Arial Black', sans-serif; font-weight: 900;">D E F P O T</div>
+                    <div style="text-align: center; font-size: 0.8rem; color: #666; margin-bottom: 10px; font-weight: 600;">6/24 - Moderate</div>
+                    <div style="display: flex; justify-content: center; margin: 15px 0; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 0.8rem; font-family: 'Arial Black', sans-serif; font-weight: 900;">E D F C Z</div>
+                    <div style="text-align: center; font-size: 0.8rem; color: #666; margin-bottom: 10px; font-weight: 600;">6/36 - Moderate</div>
+                    <div style="display: flex; justify-content: center; margin: 15px 0; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 0.6rem; font-family: 'Arial Black', sans-serif; font-weight: 900;">E F P</div>
+                    <div style="text-align: center; font-size: 0.8rem; color: #666; font-weight: 600;">6/60 - Moderate</div>
+                </div>
+            </div>
+
+            <div class="info-card" id="anatomy">
+                <h3><i class="fas fa-brain"></i> Eye Anatomy</h3>
+                <div class="anatomy-container">
+                    <svg class="anatomy-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="150" cy="100" rx="120" ry="70" fill="#e3f2fd" stroke="#0288d1" stroke-width="3"/>
+                        <circle cx="150" cy="100" r="45" fill="#81d4fa" stroke="#0277bd" stroke-width="2"/>
+                        <circle cx="150" cy="100" r="35" fill="none" stroke="#4fc3f7" stroke-width="1" opacity="0.6"/>
+                        <circle cx="150" cy="100" r="25" fill="none" stroke="#4fc3f7" stroke-width="1" opacity="0.6"/>
+                        <circle cx="150" cy="100" r="20" fill="#01579b"/>
+                        <circle cx="150" cy="100" r="10" fill="#000"/>
+                        <circle cx="140" cy="90" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="155" cy="105" r="3" fill="white" opacity="0.6"/>
+                        <path d="M 100 100 Q 150 60 200 100" fill="none" stroke="#4fc3f7" stroke-width="4" opacity="0.7"/>
+                        <path d="M 30 100 L 10 100" stroke="#ef5350" stroke-width="6" stroke-linecap="round"/>
+                        <path d="M 30 100 L 10 95" stroke="#ef5350" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 30 100 L 10 105" stroke="#ef5350" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 40 85 Q 60 90 80 88" fill="none" stroke="#ef5350" stroke-width="1.5" opacity="0.6"/>
+                        <path d="M 38 115 Q 58 110 78 112" fill="none" stroke="#ef5350" stroke-width="1.5" opacity="0.6"/>
+                        <path d="M 30 100 Q 150 30 270 100" fill="none" stroke="#0288d1" stroke-width="2" opacity="0.3"/>
+                        <path d="M 30 100 Q 150 170 270 100" fill="none" stroke="#0288d1" stroke-width="2" opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="anatomy-labels">
+                    <div class="anatomy-item"><div class="anatomy-dot" style="background: #01579b"></div><span>Pupil</span></div>
+                    <div class="anatomy-item"><div class="anatomy-dot" style="background: #81d4fa"></div><span>Iris</span></div>
+                    <div class="anatomy-item"><div class="anatomy-dot" style="background: #4fc3f7"></div><span>Cornea</span></div>
+                    <div class="anatomy-item"><div class="anatomy-dot" style="background: #ef5350"></div><span>Optic Nerve</span></div>
+                </div>
+            </div>
+
+            <div class="info-card" id="tips">
+                <h3><i class="fas fa-heartbeat"></i> Eye Health Tips</h3>
+                <div class="tips-grid">
+                    <div class="tip-card"><i class="fas fa-utensils"></i><h4>Healthy Diet</h4></div>
+                    <div class="tip-card"><i class="fas fa-glasses"></i><h4>Regular Checkups</h4></div>
+                    <div class="tip-card"><i class="fas fa-sun"></i><h4>UV Protection</h4></div>
+                    <div class="tip-card"><i class="fas fa-pause-circle"></i><h4>20-20-20 Rule</h4></div>
+                    <div class="tip-card"><i class="fas fa-bed"></i><h4>Adequate Sleep</h4></div>
+                    <div class="tip-card"><i class="fas fa-tint"></i><h4>Stay Hydrated</h4></div>
+                </div>
+                <div class="rule-box">
+                    <h4><i class="fas fa-lightbulb"></i> 20-20-20 Rule</h4>
+                    <p>Every 20 minutes, look at something 20 feet away for at least 20 seconds to reduce eye strain.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-bottom: 3rem;">
+    <h3 style="text-align: center;"><i class="fas fa-chart-line"></i> Vision Health Statistics (WHO)</h3>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">👁️ 2.2B+</div>
+            <div class="stat-label">People have vision impairment or blindness</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">👓 800M+</div>
+            <div class="stat-label">People have distance vision impairment due to uncorrected refractive errors</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">🌍 1B+</div>
+            <div class="stat-label">Cases could have been prevented or are yet to be addressed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">⚫ 43M+</div>
+            <div class="stat-label">People are blind globally</div>
+        </div>
+    </div>
+</div>
+
+        <div class="info-card" style="margin-bottom: 3rem;">
+            <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)"><span>What does 6/6 vision mean?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">6/6 vision is considered normal visual acuity. It means you can see at 6 meters what a person with normal vision sees at 6 meters. This is equivalent to 20/20 vision in the imperial system.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)"><span>How often should I get my eyes checked?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Adults should have a comprehensive eye exam every 1-2 years. Children should have their first eye exam at 6 months, then at 3 years, before first grade, and every 1-2 years thereafter.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)"><span>Can vision impairment be reversed?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Many causes of vision impairment can be treated or corrected with glasses, contact lenses, medication, or surgery. However, some conditions may cause permanent vision loss. Early detection is key.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)"><span>What is the difference between OD and OS?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">OD (Oculus Dexter) refers to the right eye, OS (Oculus Sinister) refers to the left eye, and OU (Oculus Uterque) means both eyes. These are standard medical abbreviations used in eye care.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Dr. Shroff's Charity Eye Hospital</h3>
+                <p>Providing quality eye care services to all sections of society, with a special focus on the underprivileged. Committed to eliminating preventable blindness.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="#calculator">Vision Calculator</a></p>
+                <p><a href="#vision-levels">Vision Levels</a></p>
+                <p><a href="#anatomy">Eye Anatomy</a></p>
+                <p><a href="#tips">Eye Care Tips</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Information</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 5027, Kedarnath Ln, opposite DAV School, Daryaganj, Delhi, 110002</p>
+                <p><i class="fas fa-phone"></i> 011-43524444</p>
+                <p><i class="fas fa-envelope"></i> sceh@sceh.net</p>
+            </div>
+            <div class="footer-section">
+                <h3>Emergency Services</h3>
+                <p>24x7 Emergency Eye Care Available</p>
+                <p><i class="fas fa-ambulance"></i> Emergency: 011-43528888</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Dr. Shroff's Charity Eye Hospital. All Rights Reserved. | Designed with <i class="fas fa-heart"></i> for better vision</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentScale = 'snellen';
+        
+        const snellenOptions = [
+            { value: '6/6', label: '6/6', logmar: '0.0' },
+            { value: '6/9', label: '6/9', logmar: '0.2' },
+            { value: '6/12', label: '6/12', logmar: '0.3' },
+            { value: '6/18', label: '6/18', logmar: '0.48' },
+            { value: '6/24', label: '6/24', logmar: '0.60' },
+            { value: '6/36', label: '6/36', logmar: '0.78' },
+            { value: '6/60', label: '6/60', logmar: '1.0' },
+            { value: '3/60', label: '3/60', logmar: '1.3' },
+            { value: '2/60', label: '2/60', logmar: '1.48' },
+            { value: '1/60', label: '1/60', logmar: '1.78' },
+            { value: 'FCCF', label: 'FCCF (Count Fingers)', logmar: '1.89' },
+            { value: 'HM', label: 'HM (Hand Movements)', logmar: '2.30' },
+            { value: 'PL', label: 'PL (Light Perception)', logmar: '2.60' }
+        ];
+
+        const logmarOptions = [
+            { value: '0.0', label: '0.0 (6/6)', snellen: '6/6' },
+            { value: '0.2', label: '0.2 (6/9)', snellen: '6/9' },
+            { value: '0.3', label: '0.3 (6/12)', snellen: '6/12' },
+            { value: '0.48', label: '0.48 (6/18)', snellen: '6/18' },
+            { value: '0.60', label: '0.60 (6/24)', snellen: '6/24' },
+            { value: '0.78', label: '0.78 (6/36)', snellen: '6/36' },
+            { value: '1.0', label: '1.0 (6/60)', snellen: '6/60' },
+            { value: '1.3', label: '1.3 (3/60)', snellen: '3/60' },
+            { value: '1.48', label: '1.48 (2/60)', snellen: '2/60' },
+            { value: '1.78', label: '1.78 (1/60)', snellen: '1/60' },
+            { value: '1.89', label: '1.89 (FCCF)', snellen: 'FCCF' },
+            { value: '2.30', label: '2.30 (HM)', snellen: 'HM' },
+            { value: '2.60', label: '2.60 (PL)', snellen: 'PL' }
+        ];
+
+        function switchScale(scale) {
+            currentScale = scale;
+            const snellenBtn = document.getElementById('snellenBtn');
+            const logmarBtn = document.getElementById('logmarBtn');
+
+            if (scale === 'snellen') {
+                snellenBtn.classList.add('active');
+                logmarBtn.classList.remove('active');
+                populateSelects(snellenOptions, 'value', 'label');
+            } else {
+                logmarBtn.classList.add('active');
+                snellenBtn.classList.remove('active');
+                populateSelects(logmarOptions, 'value', 'label');
+            }
+            document.getElementById('resultContainer').style.display = 'none';
+        }
+
+        function populateSelects(options, valueKey, labelKey) {
+            const rightSelect = document.getElementById('rightEye');
+            const leftSelect = document.getElementById('leftEye');
+            const optionsHTML = options.map(opt => `<option value="${opt[valueKey]}">${opt[labelKey]}</option>`).join('');
+            rightSelect.innerHTML = '<option value="">Select Vision</option>' + optionsHTML;
+            leftSelect.innerHTML = '<option value="">Select Vision</option>' + optionsHTML;
+        }
+
+        function getWHOCategory(value) {
+            let numericValue;
+            if (currentScale === 'snellen') {
+                const snellenMap = { '6/6': 0, '6/9': 1, '6/12': 2, '6/18': 3, '6/24': 4, '6/36': 5, '6/60': 6, '3/60': 7, '2/60': 8, '1/60': 9, 'FCCF': 10, 'HM': 11, 'PL': 12 };
+                numericValue = snellenMap[value];
+            } else {
+                numericValue = parseFloat(value);
+            }
+
+            if (currentScale === 'snellen') {
+                if (numericValue <= 2) return { category: 'Normal', refer: 'Not Refer' };
+                return { category: numericValue === 3 ? 'Mild' : numericValue <= 6 ? 'Moderate' : numericValue === 7 ? 'Severe' : 'Blindness', refer: 'Refer to Vision Center' };
+            } else {
+                if (numericValue <= 0.3) return { category: 'Normal', refer: 'Not Refer' };
+                if (numericValue <= 0.48) return { category: 'Mild', refer: 'Refer to Vision Center' };
+                if (numericValue <= 1.0) return { category: 'Moderate', refer: 'Refer to Vision Center' };
+                if (numericValue <= 1.3) return { category: 'Severe', refer: 'Refer to Vision Center' };
+                return { category: 'Blindness', refer: 'Refer to Vision Center' };
+            }
+        }
+
+        function getCategoryDetails(categoryName) {
+            const details = {
+                'Normal': { class: 'cat-normal', status: 'Normal', desc: 'Visual acuity of 6/12 to 6/6. No vision impairment.', icon: '✅' },
+                'Mild': { class: 'cat-mild', status: 'Mild', desc: 'Visual acuity worse than 6/12 up to 6/18.', icon: '⚠️' },
+                'Moderate': { class: 'cat-moderate', status: 'Moderate', desc: 'Visual acuity worse than 6/18 up to 6/60.', icon: '🔶' },
+                'Severe': { class: 'cat-severe', status: 'Severe', desc: 'Visual acuity worse than 6/60 up to 3/60.', icon: '🔴' },
+                'Blindness': { class: 'cat-blind', status: 'Blindness', desc: 'Visual acuity worse than 3/60 (FCCF, HM, PL).', icon: '⚫' }
+            };
+            return details[categoryName];
+        }
+
+        function getDisplayValue(value) {
+            if (currentScale === 'snellen') {
+                const opt = snellenOptions.find(o => o.value === value);
+                return { snellen: value, logmar: opt ? opt.logmar : 'N/A' };
+            } else {
+                const opt = logmarOptions.find(o => o.value === value);
+                return { logmar: value, snellen: opt ? opt.snellen : 'N/A' };
+            }
+        }
+
+        function createResult(eyeName, value) {
+            const whoResult = getWHOCategory(value);
+            const details = getCategoryDetails(whoResult.category);
+            const display = getDisplayValue(value);
+            
+            const referClass = whoResult.refer === 'Not Refer' ? 'status-not-refer' : 'status-refer';
+            
+            return `
+                <div class="result-card ${details.class}">
+                    <div class="result-header">
+       <div class="result-title">${details.icon} ${eyeName}</div>
+                        <span class="status-badge ${referClass}">${whoResult.refer}</span>
+                    </div>
+                    <div style="font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; color: #333;">Category: ${whoResult.category}</div>
+                    <div style="font-size: 0.95rem; color: #555; margin-bottom: 15px;">${details.desc}</div>
+                    <div class="result-details">
+                        <div class="detail-item"><div class="detail-label">Snellen</div><div class="detail-value">${display.snellen}</div></div>
+                        <div class="detail-item"><div class="detail-label">LogMAR</div><div class="detail-value">${display.logmar}</div></div>
+                    </div>
+                    <div class="category-bar"><div class="category-fill"></div></div>
+                </div>
+            `;
+        }
+
+        function createBetterEyeCard(rightVal, leftVal) {
+            const rightWhoResult = getWHOCategory(rightVal);
+            const leftWhoResult = getWHOCategory(leftVal);
+            let rightNum, leftNum;
+            if (currentScale === 'snellen') {
+                const map = { '6/6': 0, '6/9': 1, '6/12': 2, '6/18': 3, '6/24': 4, '6/36': 5, '6/60': 6, '3/60': 7, '2/60': 8, '1/60': 9, 'FCCF': 10, 'HM': 11, 'PL': 12 };
+                rightNum = map[rightVal];
+                leftNum = map[leftVal];
+            } else {
+                rightNum = parseFloat(rightVal);
+                leftNum = parseFloat(leftVal);
+            }
+
+            if (rightNum === leftNum) {
+                const display = getDisplayValue(rightVal);
+                const details = getCategoryDetails(rightWhoResult.category);
+                const referClass = rightWhoResult.refer === 'Not Refer' ? 'status-not-refer' : 'status-refer';
+                return `
+                    <div class="result-card better-eye-card">
+                        <div class="result-header">
+                            <div class="result-title">⚖️ Both Eyes Equal</div>
+                            <span class="status-badge ${referClass}">${rightWhoResult.refer}</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center;">
+                            <div style="font-size: 1.4rem; font-weight: 800; color: #01579b; margin-bottom: 5px;">Final Category: ${rightWhoResult.category}</div>
+                            <div style="font-size: 0.95rem; color: #546e7a;">${details.desc}</div>
+                        </div>
+                        <div class="comparison-box">
+                            <div class="comparison-text">Both eyes have equal visual acuity: ${display.snellen} (LogMAR: ${display.logmar})</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let betterEye, worseEye, betterDisplay, worseDisplay, betterWhoResult;
+            if (rightNum < leftNum) {
+                betterEye = 'Right Eye (OD)';
+                worseEye = 'Left Eye (OS)';
+                betterDisplay = getDisplayValue(rightVal);
+                worseDisplay = getDisplayValue(leftVal);
+                betterWhoResult = rightWhoResult;
+            } else {
+                betterEye = 'Left Eye (OS)';
+                worseEye = 'Right Eye (OD)';
+                betterDisplay = getDisplayValue(leftVal);
+                worseDisplay = getDisplayValue(rightVal);
+                betterWhoResult = leftWhoResult;
+            }
+
+            const betterDetails = getCategoryDetails(betterWhoResult.category);
+            const diff = Math.abs(rightNum - leftNum);
+            const maxDiff = currentScale === 'snellen' ? 12 : 2.6;
+            const diffPercentage = Math.min((diff / maxDiff) * 100, 100);
+            const referClass = betterWhoResult.refer === 'Not Refer' ? 'status-not-refer' : 'status-refer';
+
+            let description;
+            if (diff <= (currentScale === 'snellen' ? 1 : 0.2)) {
+                description = `The ${betterEye} has slightly better vision. Both eyes are relatively balanced.`;
+            } else if (diff <= (currentScale === 'snellen' ? 3 : 0.5)) {
+                description = `The ${betterEye} has moderately better vision than the ${worseEye}.`;
+            } else {
+                description = `The ${betterEye} has significantly better vision. This difference requires medical attention.`;
+            }
+
+            return `
+                <div class="result-card better-eye-card">
+                    <div class="result-header">
+                        <div class="result-title">🏆 Overall Diagnosis (Better Eye)</div>
+                        <span class="status-badge ${referClass}">${betterWhoResult.refer}</span>
+                    </div>
+                    
+                    <div style="font-size: 0.95rem; color: #546e7a; margin-bottom: 15px;">
+                        Clinical guidelines focus on your better-seeing eye for final category status.
+                    </div>
+
+                    <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 800; color: #01579b; margin-bottom: 5px;">
+                            Final Category: ${betterWhoResult.category}
+                        </div>
+                        <div style="font-size: 0.95rem; color: #546e7a;">
+                            ${betterDetails.desc}
+                        </div>
+                    </div>
+
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Better Eye</div>
+                            <div class="detail-value" style="color: #4caf50;">${betterEye}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Better Vision</div>
+                            <div class="detail-value">${betterDisplay.snellen}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Worse Vision</div>
+                            <div class="detail-value" style="color: #f44336;">${worseDisplay.snellen}</div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-box">
+                        <div class="comparison-text">
+                            📋 Better: ${betterDisplay.snellen} | Worse: ${worseDisplay.snellen}
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: #546e7a;">
+                            <strong>Analysis:</strong> ${description}
+                        </div>
+                        <div class="difference-indicator">
+                            <span class="diff-label">Vision Difference:</span>
+                            <div class="diff-bar"><div class="diff-fill" style="width: ${diffPercentage}%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function calculateVision() {
+            const rightEye = document.getElementById('rightEye').value;
+            const leftEye = document.getElementById('leftEye').value;
+            const resultContainer = document.getElementById('resultContainer');
+
+            let html = '';
+            if (rightEye) html += createResult('Right Eye (OD)', rightEye);
+            if (leftEye) html += createResult('Left Eye (OS)', leftEye);
+            if (rightEye && leftEye) html += createBetterEyeCard(rightEye, leftEye);
+
+            if (!rightEye && !leftEye) {
+                alert('Please select vision for at least one eye');
+                return;
+            }
+
+            resultContainer.innerHTML = html;
+            resultContainer.style.display = 'block';
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = 'block';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+
+        populateSelects(snellenOptions, 'value', 'label');
+    </script>
+</body>
+</html>
