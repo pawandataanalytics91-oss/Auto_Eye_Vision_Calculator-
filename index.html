@@ -47,7 +47,8 @@
             position: relative;
             overflow: hidden;
         }
-        .hero::before {            content: '';
+        .hero::before {
+            content: '';
             position: absolute;
             top: -50%;
             right: -10%;
@@ -96,7 +97,8 @@
         }
         .toggle-btn {
             flex: 1;
-            padding: 12px;            border: none;
+            padding: 12px;
+            border: none;
             background: transparent;
             border-radius: 8px;
             cursor: pointer;
@@ -145,7 +147,8 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .result-card {
-            padding: 1.5rem;            border-radius: 15px;
+            padding: 1.5rem;
+            border-radius: 15px;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border-left: 8px solid;
@@ -194,7 +197,8 @@
         }
         .category-fill { height: 100%; border-radius: 4px; }
 
-        .cat-normal { border-color: #4caf50; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }        .cat-normal .status-badge { background: #4caf50; }
+        .cat-normal { border-color: #4caf50; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+        .cat-normal .status-badge { background: #4caf50; }
         .cat-normal .category-fill { background: #4caf50; }
 
         .cat-mild { border-color: #ff9800; background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); }
@@ -243,7 +247,8 @@
 
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
         .info-card {
-            background: white;            border-radius: 15px;
+            background: white;
+            border-radius: 15px;
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s;
@@ -292,7 +297,8 @@
             text-align: center;
             transition: transform 0.3s;
         }
-        .tip-card:hover { transform: scale(1.05); }        .tip-card i { font-size: 2rem; color: #0288d1; margin-bottom: 10px; }
+        .tip-card:hover { transform: scale(1.05); }
+        .tip-card i { font-size: 2rem; color: #0288d1; margin-bottom: 10px; }
         .tip-card h4 { font-size: 0.9rem; color: #01579b; margin: 0; }
         .rule-box {
             margin-top: 1.5rem;
@@ -341,6 +347,7 @@
         .social-links { margin-top: 1rem; display: flex; gap: 15px; }
         .social-links a { color: #81d4fa; font-size: 1.3rem; transition: color 0.3s; }
         .social-links a:hover { color: white; }
+
         .age-referral-box {
             background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
             border: 2px solid #0288d1;
@@ -390,7 +397,8 @@
         }
     </style>
 </head>
-<body>    <header class="header">
+<body>
+    <header class="header">
         <div class="header-content">
             <div class="logo">
                 <i class="fas fa-eye"></i>
@@ -439,7 +447,8 @@
 
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="rightEye"><i class="fas fa-eye"></i> Right Eye (OD):</label>                    <select id="rightEye">
+                    <label for="rightEye"><i class="fas fa-eye"></i> Right Eye (OD):</label>
+                    <select id="rightEye">
                         <option value="">Select Vision</option>
                     </select>
                 </div>
@@ -460,7 +469,7 @@
 
             <div class="age-referral-box">
                 <h4><i class="fas fa-info-circle"></i> Age-Based Referral Guidelines</h4>
-   <div class="age-grid">
+                <div class="age-grid">
                     <div class="age-item">
                         <h5>0-18 Years</h5>
                         <p>Refer if vision ≤ 0.3 LogMAR (worse than 6/12)</p>
@@ -487,7 +496,7 @@
                 </div>
                 <div class="vision-level level-mild">
                     <div class="level-icon"><i class="fas fa-exclamation"></i></div>
-                    <div class="level-info"><h4>Mild</h4><p>Worse than 6/12 up to 6/18</p><p style="font-size:0.75rem; color:#f44336; font-weight:600;">⚠ Refer to Vision Center</p></div>
+                    <div class="level-info"><h4>Mild</h4><p>Worse than 6/12 up to 6/18</p><p style="font-size:0.75rem; color:#f44336; font-weight:600;"> Refer to Vision Center</p></div>
                 </div>
                 <div class="vision-level level-moderate">
                     <div class="level-icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -569,26 +578,14 @@
         </div>
 
         <div class="info-card" style="margin-bottom: 3rem;">
-    <h3 style="text-align: center;"><i class="fas fa-chart-line"></i> Vision Health Statistics (WHO)</h3>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-number">👁️ 2.2B+</div>
-            <div class="stat-label">People have vision impairment or blindness</div>
+            <h3 style="text-align: center;"><i class="fas fa-chart-line"></i> Vision Health Statistics (WHO)</h3>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-number">👁️ 2.2B+</div><div class="stat-label">People have vision impairment or blindness</div></div>
+                <div class="stat-card"><div class="stat-number">👓 800M+</div><div class="stat-label">People have distance vision impairment due to uncorrected refractive errors</div></div>
+                <div class="stat-card"><div class="stat-number">🌍 1B+</div><div class="stat-label">Cases could have been prevented or are yet to be addressed</div></div>
+                <div class="stat-card"><div class="stat-number"> 43M+</div><div class="stat-label">People are blind globally</div></div>
+            </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-number">👓 800M+</div>
-            <div class="stat-label">People have distance vision impairment due to uncorrected refractive errors</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">🌍 1B+</div>
-            <div class="stat-label">Cases could have been prevented or are yet to be addressed</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">⚫ 43M+</div>
-            <div class="stat-label">People are blind globally</div>
-        </div>
-    </div>
-</div>
 
         <div class="info-card" style="margin-bottom: 3rem;">
             <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
@@ -625,6 +622,7 @@
                 <p><a href="#vision-levels">Vision Levels</a></p>
                 <p><a href="#anatomy">Eye Anatomy</a></p>
                 <p><a href="#tips">Eye Care Tips</a></p>
+                <p><a href="https://www.sceh.net" target="_blank">Official Website <i class="fas fa-external-link-alt"></i></a></p>
             </div>
             <div class="footer-section">
                 <h3>Contact Information</h3>
@@ -645,7 +643,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Dr. Shroff's Charity Eye Hospital. All Rights Reserved. | Designed with <i class="fas fa-heart"></i> for better vision</p>
+            <p>&copy; 2024 Dr. Shroff's Charity Eye Hospital. All Rights Reserved. | Designed with <i class="fas fa-heart"></i> for better vision</p>
         </div>
     </footer>
 
@@ -756,12 +754,12 @@
             const details = getCategoryDetails(whoResult.category);
             const display = getDisplayValue(value);
             
-            const referClass = whoResult.refer === 'Not Refer' ? 'status-not-refer' : 'status-refer';
+       const referClass = whoResult.refer === 'Not Refer' ? 'status-not-refer' : 'status-refer';
             
             return `
                 <div class="result-card ${details.class}">
                     <div class="result-header">
-       <div class="result-title">${details.icon} ${eyeName}</div>
+                        <div class="result-title">${details.icon} ${eyeName}</div>
                         <span class="status-badge ${referClass}">${whoResult.refer}</span>
                     </div>
                     <div style="font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; color: #333;">Category: ${whoResult.category}</div>
@@ -828,7 +826,12 @@
             const diff = Math.abs(rightNum - leftNum);
             const maxDiff = currentScale === 'snellen' ? 12 : 2.6;
             const diffPercentage = Math.min((diff / maxDiff) * 100, 100);
-            const referClass = betterWhoResult.refer === 'Not Refer' ? 'status-not-refer' : 'status-refer';
+            
+            // ✅ CORRECTED LOGIC: Agar KISI BHI eye ko referral chahiye toh overall REFER
+            const overallRefer = rightWhoResult.refer === 'Refer to Vision Center' || 
+                                 leftWhoResult.refer === 'Refer to Vision Center';
+            const referClass = overallRefer ? 'status-refer' : 'status-not-refer';
+            const referText = overallRefer ? 'Refer to Vision Center' : 'Not Refer';
 
             let description;
             if (diff <= (currentScale === 'snellen' ? 1 : 0.2)) {
@@ -843,7 +846,7 @@
                 <div class="result-card better-eye-card">
                     <div class="result-header">
                         <div class="result-title">🏆 Overall Diagnosis (Better Eye)</div>
-                        <span class="status-badge ${referClass}">${betterWhoResult.refer}</span>
+                        <span class="status-badge ${referClass}">${referText}</span>
                     </div>
                     
                     <div style="font-size: 0.95rem; color: #546e7a; margin-bottom: 15px;">
