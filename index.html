@@ -300,15 +300,15 @@
             border-radius: 8px;
         }
         .chart-letter { font-family: 'Arial Black', sans-serif; font-weight: 900; color: #000; }
-        .chart-6-6 { font-size: 2rem; }
-        .chart-6-12 { font-size: 1.5rem; }
-        .chart-6-18 { font-size: 1.2rem; }
-        .chart-6-24 { font-size: 1rem; }
-        .chart-6-36 { font-size: 0.8rem; }
-        .chart-6-60 { font-size: 0.6rem; }
+        .chart-6-60 { font-size: 2rem; }
+        .chart-6-36 { font-size: 1.5rem; }
+        .chart-6-24 { font-size: 1.2rem; }
+        .chart-6-18 { font-size: 1rem; }
+        .chart-6-12 { font-size: 0.8rem; }
+        .chart-6-6 { font-size: 0.6rem; }
         .chart-label { text-align: center; font-size: 0.8rem; color: #666; margin-top: 5px; font-weight: 600; }
         .anatomy-container { display: flex; justify-content: center; margin: 1.5rem 0; }
-        .anatomy-svg { max-width: 280px; width: 100%; }
+        .anatomy-svg { max-width: 320px; width: 100%; }
         .anatomy-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
         .anatomy-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; padding: 6px; background: #f5f5f5; border-radius: 6px; }
         .anatomy-dot { width: 12px; height: 12px; border-radius: 50%; }
@@ -526,33 +526,45 @@
             <div class="info-card">
                 <h3><i class="fas fa-eye"></i> Snellen Chart Reference</h3>
                 <div class="chart-container">
-                    <div class="chart-row chart-6-6"><span class="chart-letter">E</span><span class="chart-letter" style="margin: 0 20px">F P</span><span class="chart-letter">T O Z</span></div>
-                    <div class="chart-label">6/6 - Normal</div>
-                    <div class="chart-row chart-6-12"><span class="chart-letter">L P E D</span><span class="chart-letter" style="margin: 0 15px">F D B</span></div>
-                    <div class="chart-label">6/12 - Normal</div>
-                    <div class="chart-row chart-6-18"><span class="chart-letter">F E L O P</span><span class="chart-letter" style="margin: 0 10px">Z C D</span></div>
-                    <div class="chart-label">6/18 - Mild</div>
+                    <div class="chart-row chart-6-60"><span class="chart-letter">E</span><span class="chart-letter" style="margin: 0 20px">F P</span><span class="chart-letter">T O Z</span></div>
+                    <div class="chart-label">6/60 - Moderate</div>
+                    
+                    <div class="chart-row chart-6-36"><span class="chart-letter">E D F</span><span class="chart-letter" style="margin: 0 15px">C Z</span></div>
+                    <div class="chart-label">6/36 - Moderate</div>
+                    
                     <div class="chart-row chart-6-24"><span class="chart-letter">D E F P O T</span></div>
                     <div class="chart-label">6/24 - Moderate</div>
-                    <div class="chart-row chart-6-36"><span class="chart-letter">E D F C Z</span></div>
-                    <div class="chart-label">6/36 - Moderate</div>
-                    <div class="chart-row chart-6-60"><span class="chart-letter">E F P</span></div>
-                    <div class="chart-label">6/60 - Moderate</div>
+                    
+                    <div class="chart-row chart-6-18"><span class="chart-letter">F E L O P</span><span class="chart-letter" style="margin: 0 10px">Z C D</span></div>
+                    <div class="chart-label">6/18 - Mild</div>
+                    
+                    <div class="chart-row chart-6-12"><span class="chart-letter">L P E D</span><span class="chart-letter" style="margin: 0 15px">F D B</span></div>
+                    <div class="chart-label">6/12 - Normal</div>
+                    
+                    <div class="chart-row chart-6-6"><span class="chart-letter">E</span><span class="chart-letter" style="margin: 0 20px">F P</span><span class="chart-letter">T O Z</span></div>
+                    <div class="chart-label">6/6 - Normal</div>
                 </div>
             </div>
             <div class="info-card" id="anatomy">
                 <h3><i class="fas fa-brain"></i> Eye Anatomy</h3>
                 <div class="anatomy-container">
-                    <svg class="anatomy-svg" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="100" cy="75" rx="90" ry="55" fill="#e3f2fd" stroke="#0288d1" stroke-width="2"/>
-                        <circle cx="100" cy="75" r="35" fill="#81d4fa" stroke="#0277bd" stroke-width="2"/>
-                        <circle cx="100" cy="75" r="18" fill="#01579b"/>
-                        <circle cx="100" cy="75" r="8" fill="#000"/>
-                        <circle cx="92" cy="68" r="5" fill="white" opacity="0.8"/>
-                        <path d="M 65 75 Q 100 45 135 75" fill="none" stroke="#4fc3f7" stroke-width="3" opacity="0.6"/>
-                        <path d="M 10 75 Q -10 75 0 75" fill="none" stroke="#ef5350" stroke-width="4"/>
-                        <path d="M 15 65 Q 30 70 40 68" fill="none" stroke="#ef5350" stroke-width="1.5" opacity="0.6"/>
-                        <path d="M 12 85 Q 28 80 38 82" fill="none" stroke="#ef5350" stroke-width="1.5" opacity="0.6"/>
+                    <!-- Clean Eye Diagram (Red Optic Nerve Removed) -->
+                    <svg class="anatomy-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Eye outer shape -->
+                        <ellipse cx="140" cy="100" rx="110" ry="65" fill="#e3f2fd" stroke="#0288d1" stroke-width="3"/>
+                        
+                        <!-- Iris -->
+                        <circle cx="140" cy="100" r="40" fill="#81d4fa" stroke="#0277bd" stroke-width="2"/>
+                        
+                        <!-- Pupil -->
+                        <circle cx="140" cy="100" r="16" fill="#01579b"/>
+                        <circle cx="140" cy="100" r="7" fill="#000"/>
+                        
+                        <!-- Light reflection -->
+                        <circle cx="133" cy="93" r="4" fill="white" opacity="0.8"/>
+                        
+                        <!-- Cornea curve (front) -->
+                        <path d="M 100 100 Q 140 65 180 100" fill="none" stroke="#4fc3f7" stroke-width="3" opacity="0.6"/>
                     </svg>
                 </div>
                 <div class="anatomy-labels">
@@ -560,6 +572,12 @@
                     <div class="anatomy-item"><div class="anatomy-dot" style="background: #81d4fa"></div><span>Iris</span></div>
                     <div class="anatomy-item"><div class="anatomy-dot" style="background: #4fc3f7"></div><span>Cornea</span></div>
                     <div class="anatomy-item"><div class="anatomy-dot" style="background: #ef5350"></div><span>Optic Nerve</span></div>
+                </div>
+                
+                <!-- Added Optic Nerve Description Line -->
+                <div style="margin-top: 20px; padding: 15px; background: #fff3e0; border-left: 4px solid #ef5350; border-radius: 8px; font-size: 0.95rem; color: #546e7a; line-height: 1.6;">
+                    <i class="fas fa-info-circle" style="color: #ef5350; margin-right: 8px;"></i>
+                    <strong>Note:</strong> The optic nerve starts at the retina (back of each eye) and runs directly to the brain.
                 </div>
             </div>
             <div class="info-card" id="tips">
@@ -582,9 +600,9 @@
             <h3 style="text-align: center;"><i class="fas fa-chart-line"></i> Vision Health Statistics (WHO)</h3>
             <div class="stats-grid">
                 <div class="stat-card"><div class="stat-number">👁️ 2.2B+</div><div class="stat-label">People have vision impairment or blindness</div></div>
-                <div class="stat-card"><div class="stat-number">👓 800M+</div><div class="stat-label">People have distance vision impairment due to uncorrected refractive errors</div></div>
+                <div class="stat-card"><div class="stat-number"> 800M+</div><div class="stat-label">People have distance vision impairment due to uncorrected refractive errors</div></div>
                 <div class="stat-card"><div class="stat-number">🌍 1B+</div><div class="stat-label">Cases could have been prevented or are yet to be addressed</div></div>
-                <div class="stat-card"><div class="stat-number">⚫ 43M+</div><div class="stat-label">People are blind globally</div></div>
+                <div class="stat-card"><div class="stat-number"> 43M+</div><div class="stat-label">People are blind globally</div></div>
             </div>
         </div>
         <div class="info-card" style="margin-bottom: 3rem;">
@@ -763,7 +781,7 @@
                 'Mild': { class: 'cat-mild', status: 'Mild', desc: 'Visual acuity worse than 6/12 up to 6/18.', icon: '⚠️' },
                 'Moderate': { class: 'cat-moderate', status: 'Moderate', desc: 'Visual acuity worse than 6/18 up to 6/60.', icon: '🔶' },
                 'Severe': { class: 'cat-severe', status: 'Severe', desc: 'Visual acuity worse than 6/60 up to 3/60.', icon: '🔴' },
-                'Blindness': { class: 'cat-blind', status: 'Blindness', desc: 'Visual acuity worse than 3/60 (FCCF, HM, PL).', icon: '⚫' }
+                'Blindness': { class: 'cat-blind', status: 'Blindness', desc: 'Visual acuity worse than 3/60 (FCCF, HM, PL).', icon: '' }
             };
             return details[categoryName];
         }
