@@ -765,8 +765,11 @@
             } else {
                 numericValue = parseFloat(value);
             }
+
             let referStatus = 'Not Refer';
             let category = 'Normal';
+
+            // Referral Logic
             if (ageGroup === 'child') {
                 if (currentScale === 'snellen') { 
                     if (numericValue >= 2) { referStatus = 'Refer to Vision Center'; category = 'Mild'; } 
@@ -780,15 +783,18 @@
                     if (numericValue >= 0.4) { referStatus = 'Refer to Vision Center'; category = 'Mild'; } 
                 }
             }
+
+            // ✅ FIXED CATEGORY LOGIC: 3/60 ab Severe mein aayega
             if (currentScale === 'snellen') {
-                if (numericValue > 3 && numericValue <= 6) category = 'Moderate';
-                else if (numericValue > 6 && numericValue < 8) category = 'Severe';
-                else if (numericValue >= 8) category = 'Blindness';
+                if (numericValue > 3 && numericValue <= 6) category = 'Moderate'; // 6/18 se 6/60 tak
+                else if (numericValue > 6 && numericValue <= 8) category = 'Severe'; // 5/60, 4/60, 3/60 (Value 8 tak Severe)
+                else if (numericValue > 8) category = 'Blindness'; // 2/60, 1/60, FCCF, HM, PL (Value 8 se upar Blindness)
             } else {
                 if (numericValue > 0.48 && numericValue <= 1.0) category = 'Moderate';
-                else if (numericValue > 1.0 && numericValue < 1.3) category = 'Severe';
-                else if (numericValue >= 1.3) category = 'Blindness';
+                else if (numericValue > 1.0 && numericValue <= 1.3) category = 'Severe'; // 1.3 (3/60) tak Severe
+                else if (numericValue > 1.3) category = 'Blindness'; // 1.3 se upar Blindness
             }
+
             return { category: category, refer: referStatus };
         }
         function getCategoryDetails(categoryName) {
