@@ -1,13 +1,21 @@
-{
-  "name": "Travel Plan Management System",
-  "short_name": "Travel Plan",
-  "description": "Employee Travel Management System - 2026",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
-  "icons": [
-    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ]
-}
+const CACHE_NAME = 'vision-calc-v1';
+const urlsToCache = [
+  './',
+  './index.html'
+];
+
+// Install Service Worker
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+// Fetch requests from cache
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
+  );
+});
