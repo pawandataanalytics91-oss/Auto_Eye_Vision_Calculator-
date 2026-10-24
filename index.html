@@ -427,9 +427,85 @@
                 padding: 3rem;
             }
         }
+    /* Dark Splash Screen Styles */
+#splashScreen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: linear-gradient(180deg, #0a1929 0%, #0d2137 40%, #0a1929 100%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 99999; transition: opacity 0.6s ease-out;
+    overflow: hidden;
+}
+#splashScreen::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at center, rgba(2, 136, 209, 0.15) 0%, transparent 60%);
+    animation: pulseGlow 3s infinite ease-in-out;
+}
+@keyframes pulseGlow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+.splash-content { text-align: center; margin-bottom: 60px; position: relative; z-index: 2; }
+.splash-logo { 
+    position: relative; margin-bottom: 25px; display: inline-block;
+    animation: logoFloat 2s infinite ease-in-out;
+}
+@keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.splash-eye-svg {
+    filter: drop-shadow(0 0 20px rgba(2, 136, 209, 0.9));
+}
+
+.splash-title { 
+    color: #ffffff; font-size: 2rem; font-weight: 800; 
+    margin: 0; line-height: 1.2; 
+    text-shadow: 0 2px 15px rgba(2, 136, 209, 0.4);
+}
+.splash-subtitle { 
+    color: #81d4fa; font-size: 1.2rem; 
+    margin-top: 12px; font-weight: 500; 
+    letter-spacing: 1px;
+}
+.splash-loader { position: absolute; bottom: 80px; text-align: center; width: 70%; z-index: 2; }
+.loader-bar { 
+    width: 100%; height: 4px; background: #1a2f47; 
+    border-radius: 2px; overflow: hidden; margin-bottom: 12px; 
+}
+.loader-bar::after { 
+    content: ''; display: block; width: 40%; height: 100%; 
+    background: linear-gradient(90deg, #0288d1, #81d4fa); 
+    animation: loading 1.5s infinite ease-in-out;
+    box-shadow: 0 0 10px #0288d1;
+}
+@keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+.loader-text { color: #81d4fa; font-size: 0.9rem; margin: 0; letter-spacing: 0.5px; }
+.splash-version { 
+    position: absolute; bottom: 30px; color: #546e7a; 
+    font-size: 0.8rem; z-index: 2;
+}
     </style>
 </head>
 <body>
+    <!-- Splash Screen Start -->
+<div id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-logo">
+            <!-- Professional SVG Eye Logo -->
+            <svg class="splash-eye-svg" viewBox="0 0 100 60" width="140" height="84" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5,30 Q50,-10 95,30 Q50,70 5,30 Z" fill="none" stroke="#0288d1" stroke-width="3"/>
+                <circle cx="50" cy="30" r="18" fill="#81d4fa" stroke="#01579b" stroke-width="2"/>
+                <circle cx="50" cy="30" r="8" fill="#01579b"/>
+                <circle cx="45" cy="25" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1 class="splash-title">Dr. Shroff's Charity Eye Hospital</h1>
+        <p class="splash-subtitle">Dynamic Vision Calculator</p>
+    </div>
+    <div class="splash-loader">
+        <div class="loader-bar"></div>
+        <p class="loader-text">Loading your vision...</p>
+    </div>
+    <p class="splash-version">Version 2.4.1</p>
+</div>
+<!-- Splash Screen End -->
     <header class="header">
         <div class="header-content">
             <div class="logo">
@@ -1025,6 +1101,14 @@
         });
     });
   }
+// Splash Screen Logic
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        var splash = document.getElementById('splashScreen');
+        splash.style.opacity = '0';
+        setTimeout(function() { splash.style.display = 'none'; }, 600);
+    }, 2500); // 2.5 seconds tak splash screen dikhega
+});
 </script>
 </body>
 </html>
