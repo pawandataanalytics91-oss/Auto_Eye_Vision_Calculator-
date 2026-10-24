@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vision-calc-v1';
+const CACHE_NAME = 'vision-calc-v2';
 const urlsToCache = [
   './',
   './index.html'
